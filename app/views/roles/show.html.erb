@@ -1,0 +1,19 @@
+<h1 class="text-center mt-4">Role: <%= @role.role %></h1>
+
+<% if logged_in? && current_user.admin? %>
+  <div class="text-center mt-4">
+    <%= link_to "Edit role", edit_role_path(@role), class: "btn btn-outline-info" %>
+  </div>
+<% end %>
+
+<h3 class="text-center mt-4">Books</h3>
+
+<div class="flickr_pagination">
+  <%= will_paginate @books, :container => false %>
+</div>
+
+<%= render 'books/book' %>
+
+<div class="flickr_pagination mb-4">
+  <%= will_paginate @books, :container => false %>
+</div>

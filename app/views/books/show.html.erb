@@ -1,0 +1,27 @@
+<h2 class="text-center mt-4"><%= @book.title %></h2>
+
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-8 mt-4">
+      <div class="card text-center shadow mb-5 bg-white rounded">
+        <div class="card-header font-italic">
+          by <%= @book.user.username if @book.user %>
+          <%= link_to gravatar_for(@book.user), user_path(@book.user) %>
+          <% if @book.roles.any? %>
+            <div class="mt-2"><%= render @book.roles %></div> 
+          <% end %>
+        </div>
+        <div class="card-body">
+          <div class="card-text text-left"><%= simple_format(@book.description) %></div>
+          <% if logged_in? && (@book.user == current_user || current_user.admin?) %>
+          <%= link_to "Edit", edit_book_path(@book), class: "btn btn-outline-info" %>
+          <%= link_to "Delete", book_path(@book), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+          <% end %>
+        </div>
+        <div class="card-footer text-muted">
+          <small>Added <%= time_ago_in_words(@book.added_at) %> ago</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
