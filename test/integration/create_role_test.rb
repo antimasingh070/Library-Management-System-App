@@ -3,8 +3,8 @@ require 'test_helper'
 class CreateRoleTest < ActionDispatch::IntegrationTest
 
   setup do
-    @librarian_user = User.create(username: "Annu Singh", email: "annu@example.com",
-                              password: "password", admin: true)
+    @librarian_user = User.create(username: "Annu Singh", email: "annu@gmail.com",
+                              password: "password", librarian: true)
     sign_in_as(@librarian_user)
   end
 

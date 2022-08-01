@@ -3,8 +3,8 @@ require 'test_helper'
 class RolesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @role = Role.create(role: "Member")
-    @librarian_user = User.create(username: "Annu Singh", email: "annu@example.com",
-                              password: "password", admin: true)
+    @librarian_user = User.create(username: "Annu Singh", email: "annu@gmail.com",
+                              password: "password", librarian: true)
   end
 
   test "should get index" do
