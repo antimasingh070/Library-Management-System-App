@@ -13,13 +13,13 @@
         </div>
         <div class="card-body">
           <div class="card-text text-left"><%= simple_format(@book.description) %></div>
-          <% if logged_in? && (@book.user == current_user || current_user.admin?) %>
+          <% if logged_in? && (@book.user == current_user || current_user.librarian?) %>
           <%= link_to "Edit", edit_book_path(@book), class: "btn btn-outline-info" %>
           <%= link_to "Delete", book_path(@book), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
           <% end %>
         </div>
         <div class="card-footer text-muted">
-          <small>Added <%= time_ago_in_words(@book.added_at) %> ago</small>
+          <small>Added <%= time_ago_in_words(@book.created_at) %> ago</small>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 class RolesController < ApplicationController
-    before_action :require_admin, except: [:index, :show]
+    before_action :require_librarian, except: [:index, :show]
 
   def new
     @role = Role.new
@@ -41,12 +41,12 @@ class RolesController < ApplicationController
   private
 
   def role_params
-    params.require(:role).permit(:name)
+    params.require(:role).permit(:role)
   end
 
-  def require_admin
-    if !(logged_in? && current_user.admin?)
-      flash[:alert] = "Only admins can perform that action"
+  def require_librarian
+    if !(logged_in? && current_user.librarian?)
+      flash[:alert] = "Only Libraian can perform that action"
       redirect_to roles_path
     end
   end
