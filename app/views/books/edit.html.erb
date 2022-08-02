@@ -1,2 +1,24 @@
-<h1 class="text-center mt-4">Edit Book</h1>
-<%= render 'form' %>
+#edit the book details & update
+<h1>Edit Book Detail</h1>
+<% if @book.errors.any? %>
+  <h2>The following errors prevented the book from being saved</h2>
+  <ul>
+    <% @book.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+<%= form_for @book, :url =>{:action => "update", :id =>@book} do |book| %>
+
+<p>Title: <%= book.text_field 'title' %></p>
+<p>Number of Units: <%= book.number_field  'number_Of_units' %></p>
+<p>Description<br/>
+
+<%= book.text_area 'description' %></p>
+
+<%= book.submit "Save changes", class: 'btn btn-primary' %>
+<% end %>
+
+#redirect to book index page
+
+<%= link_to 'Back', {:action => 'index' }, class: 'btn btn-primary' %>

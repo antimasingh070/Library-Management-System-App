@@ -1,9 +1,28 @@
-<h1 class="text-center mt-4">Listing all Book</h1>
+#book list page
 
-<div class="flickr_pagination">
-  <%= will_paginate @books, :container => false %>
-</div>
-<%= render 'book' %>
-<div class="flickr_pagination mb-4">
-  <%= will_paginate @books, :container => false %>
-</div>
+<% if @books.blank? %>
+  <p>There are not any books currently in the system.</p>
+<% else %>
+  <h1>Books listing page</h1>
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Number of Units</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+      <th scope="row"><%= book.id %></th>
+        <td><%= book.title %></td>
+        <td><%= book.number_Of_units %></td>
+        <td><%= book.description %></td>
+        <td><%= link_to 'View', book_path(book) %></td>
+      </tr>
+    <% end %>
+  </table>
+  <% end %>
+<p><%= link_to "Add new Book", {:action => 'new' }, class: 'btn btn-primary' %></p>

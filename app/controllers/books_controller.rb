@@ -1,55 +1,73 @@
 class BooksController < ApplicationController
 
-    before_action :set_book, only: [:show, :edit, :update, :destroy]
-  before_action :require_user, except: [:show, :index]
-  before_action :require_same_user, only: [:edit, :update, :destroy]
+   #before perform action it will verify method is eligible for this action or not
 
-  def show
-  end
+   before_action :require_user, except: [:edit, :issue, :update, :destroy]
+   before_action :require_librarian, except: [:issue, :index, :show ,:new ,:create , :update ,:destroy, :edit]
 
-  def index
-    @books = Book.paginate(page: params[:page], per_page: 5)
-  end
-
-  def new
-    @book = Book.new
-  end
-
-  def edit
-  end
-
-  def create
-    @book = Book.new(book_params)
-    @book.user = current_user
-    if @book.save
-      flash[:notice] = "Book was added successfully."
-      redirect_to @book
-    else
-      render 'new'
+    def show                           #search book by their id
+        @book = Book.find(params[:id])
     end
-  end
-
-
-  def destroy
-    @book.destroy
-    redirect_to books_path
-  end
-
-  private
-
-  def set_book
-    @book = Book.find(params[:id])
-  end
-
-  def book_params
-    params.require(:book).permit(:title, :number_Of_units, :description[])
-  end
-
-  def require_same_user
-    if current_user != @book.user && !current_user.librarian?
-      flash[:alert] = "You can only edit or delete your own book"
-      redirect_to @book
+    
+    def index                            #show all book list
+        @books = Book.all
     end
-  end
 
+    def new                             #it will create new books
+        @book = Book.new
+     end
+  
+
+   def issue                            #search by book title then issue book from the library
+      @book = Book.find_by(params[:title])
+      if !@number_Of_units.nil?
+        flash[:notice] = "Book is already Requested!!"
+      else
+
+        flash[:notice] = "Book Added to your Requested Lists"
+      end
+        redirect_to action: "index"
+   end
+  
+    def create                            #add new book 
+        @book = Book.new(book_params)
+  
+        if @book.save
+           redirect_to :action => 'index'
+        else
+           render :action => 'new'
+        end
+     end
+     
+     def edit                             #edit the book 
+        @book = Book.find(params[:id])
+     end
+     
+     def update                          #update the book 
+        @book = Book.find(params[:id])
+        
+        if @book.update(book_param)
+           redirect_to :action => 'show', :id => @book
+        else
+           render :action => 'edit'
+        end
+     end
+     
+     def destroy                           #remove book from library
+        @book= Book.find(params[:id])
+        @book.destroy
+        redirect_to :action => 'index'
+     end
+     private
+
+     def book_param
+        params.require(:book).permit(:title, :number_Of_units, :description)
+      end
+
+   def require_librarian
+        if !(logged_in? && current_user.librarian?)
+         flash[:alert] = "Only Libraian can perform that action"
+         redirect_to root_path
+        end
+      end
 end

@@ -1,2 +1,17 @@
-<h1 class="text-center mt-4">Add new book</h1>
-<%= render 'form' %>
+#add new book page
+
+<h1>Add new book</h1>
+
+<%= form_tag :action => 'create' do %>
+<p><label for = "book_title">Title</label>:
+
+<%= text_field 'books', 'title' %></p>
+<p><label for = "book_number_Of_units">Number of units</label>:
+<%= number_field 'books', 'number_Of_units' %></p>
+<p><label for = "book_description">Description</label><br/>
+
+<%= text_area 'books', 'description' %></p>
+<input class="btn btn-primary" type="submit" value="Submit">
+
+<% end -%>
+<%= link_to 'Back', {:action => 'index'}, class: 'btn btn-primary' %>

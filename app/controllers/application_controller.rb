@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-helper_method :current_user, :logged_in?
-include ActionController::RequestForgeryProtection
-include ActionController::Caching
+    helper_method :current_user, :logged_in?
+
+    #these are the helper method that is (mostly) used in your Rails views to share reusable code.
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end

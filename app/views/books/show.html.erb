@@ -1,27 +1,23 @@
-<h2 class="text-center mt-4"><%= @book.title %></h2>
+#it will show the book details 
 
-<div class="container">
-  <div class="row justify-content-md-center">
-    <div class="col-8 mt-4">
-      <div class="card text-center shadow mb-5 bg-white rounded">
-        <div class="card-header font-italic">
-          by <%= @book.user.username if @book.user %>
-          <%= link_to gravatar_for(@book.user), user_path(@book.user) %>
-          <% if @book.roles.any? %>
-            <div class="mt-2"><%= render @book.roles %></div> 
-          <% end %>
-        </div>
-        <div class="card-body">
-          <div class="card-text text-left"><%= simple_format(@book.description) %></div>
-          <% if logged_in? && (@book.user == current_user || current_user.librarian?) %>
-          <%= link_to "Edit", edit_book_path(@book), class: "btn btn-outline-info" %>
-          <%= link_to "Delete", book_path(@book), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
-          <% end %>
-        </div>
-        <div class="card-footer text-muted">
-          <small>Added <%= time_ago_in_words(@book.created_at) %> ago</small>
-        </div>
-      </div>
-    </div>
+<div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+  <div class="card-header">Showing book details</div>
+  <div class="card-body">
+    <h5 class="card-title"><strong>Book ID: </strong> <%= @book.id %> <br></h5>
+    <p class="card-text">
+      <strong>Title </strong> <%= @book.title %><br>
+      <strong>No. of Units: </strong> <%= @book.number_Of_units %><br>
+      <strong>No. of Units: </strong> <%= @book.description %>
+    <% if logged_in? %>
+      <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= "(Librarian)" if current_user.librarian? %> Profile [<%= current_user.first_name %>]</a>
+      <td><%= link_to 'Edit', {:action => 'edit'},  class: 'btn btn-primary' %></td>
+      <td><%= link_to 'delete', class: 'btn btn-primary', method: :delete %></td>
+      <td><%= link_to 'issue', {:action => 'issue'},  class: 'btn btn-primary' %></td>
+    <% end %>
+    </p>
   </div>
 </div>
+
+<hr />
+<%= link_to 'Back', {:action => 'index'},  class: 'btn btn-primary' %>

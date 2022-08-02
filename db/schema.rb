@@ -10,38 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_30_175447) do
-  create_table "book_roles", force: :cascade do |t|
-    t.integer "book_id"
-    t.integer "role_id"
+ActiveRecord::Schema[7.0].define(version: 2022_08_02_151455) do
+  create_table "books", force: :cascade do |t|
+    t.string "title"
+    t.integer "number_Of_units"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_books", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "book_id", null: false
     t.datetime "issue_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "books", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.integer "number_Of_units"
-    t.datetime "added_at"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "roles", force: :cascade do |t|
-    t.string "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_user_books_on_book_id"
+    t.index ["user_id"], name: "index_user_books_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
     t.string "email"
     t.string "password_digest"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "librarian", default: false
   end
 
+  add_foreign_key "user_books", "books"
+  add_foreign_key "user_books", "users"
 end
